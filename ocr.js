@@ -3,6 +3,7 @@ const app = express();
 const multer = require("multer");
 const Tesseract = require("tesseract.js");
 const { dirname } = require('path');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -32,11 +33,21 @@ app.post('/upload',upload.single('uploadedImage'),(req,res)=>{
             {logger:m => console.log(m)}
         ).then(({data:{text}})=>{
             console.log(text);
+
+           
+            fs.unlink('uploads/'+req.file.filename, function (err) {
+            if (err) throw err;
+            
+            console.log('File deleted!');
+            });
+            
             res.render('index',{ title:"Converted text",converted:text});
+
         })
 
     }catch(error){
         console.error(error)
+        res.render('index',{ title:"Please select an image first",converted:""});
     }
 })
 
