@@ -18,24 +18,58 @@
             </h1>
         </div>
         <div class="centerh">
-            <form action="/upload" method="POST" enctype="multipart/form-data">
+            <form id="form" action="/upload" method="POST" enctype="multipart/form-data">
                 <input class="form-control" type="file" name="uploadedImage"><br><br>
-                <button type="submit" class="btn btn-outline-success">Convert</button>
+                <button type="submit" class="btn btn-outline-success" onclick="convertClick()">Convert</button>
             </form>
-            <div class="convText">
-                <h2 >
+            <div id="conText" class="convText">
+                <h2 id="conTitle">
                     <%= title %>
                 </h2>
+                
                 <hr>
             
-                <p>
-                    <div>
-                        <%= converted %>
+                <p id="conText">
+                    <%= converted %>
+                </p>
+                <div class="d-flex justify-content-center">
+                    <div id="loadbar" class="spinner-border text-success" role="status" style="display: none;">
+                      <span class="sr-only"></span>
                     </div>
-                    </p>
-            </div>
+                  </div>
+                
+            </div>    
+            
         </div>
     </div>
+    <script>
+        var form = document.getElementById("form");
+            var title = "<%= title %>";
+            var converterText ="<%= converted %>";
+
+            const conTextPanel = document.getElementById("conText");
+            const titleEle = document.getElementById("conTitle");
+            const conTextEle = document.getElementById("conText");
+            const load = document.getElementById("loadbar");
+            load.style.display="none";
+            
+            
+            if(title!="Converted text"){
+                conTextPanel.style.display="none";
+
+            }else{
+                conTextPanel.style.display="block";
+            }
+
+        function convertClick(){
+            load.style.display="block";
+            form.submit();
+            conTextPanel.style.display="block";
+            
+
+            
+        }
+    </script>
     
 </body>
 </html>
